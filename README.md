@@ -1,26 +1,35 @@
-# Step 3: Custom RL Environment for CPU Scheduling
+Step 3: Custom RL Environment for CPU Scheduling
+🔍 Overview
+This module is part of an Operating Systems course project focused on exploring CPU scheduling strategies using Reinforcement Learning (RL).
+In Step 3, we design and implement a custom RL environment that simulates a simplified operating system process scheduler. The environment adheres to the OpenAI Gym interface and enables an RL agent to learn scheduling policies by interacting with dynamic system states.
 
-## Overview
+⚙️ Environment Design
+The environment simulates multiple concurrent processes. Each process is described by normalized system metrics:
+CPU usage
+Memory usage
+Priority
+I/O wait time
+Context switches
+Execution time remaining
+The RL agent receives the full system state (as a flat vector), chooses an action (which process to schedule or to noop), and receives a reward based on how well that decision balances efficiency and fairness.
 
-This module is part of an Operating Systems project focused on optimizing CPU scheduling policies using Machine Learning and Reinforcement Learning.
+🔑 Key Elements
+Observation Space:
+A continuous vector of shape (num_processes × 7), capturing normalized metrics for each process.
+Action Space:
+A discrete space with num_processes + 1 actions, where each index selects a process to run or performs no operation (noop).
 
-In Step 3, we design and implement a *custom RL environment* that simulates a simplified operating system scheduler. The environment follows the OpenAI Gym interface and allows an RL agent to interact with the system by making scheduling decisions.
+Reward Function:
+Designed to encourage:
+High throughput (low CPU usage)
+Low memory pressure
+Prioritizing important tasks
+Reducing I/O wait
+Minimizing unnecessary context switches
+Fair treatment of long-waiting processes
 
-## Environment Design
-
-The environment simulates a number of concurrent processes. Each process is characterized by resource metrics such as CPU usage, memory usage, and priority. The agent receives a full snapshot of the system state (observations), selects an action (e.g., which process to prioritize), and receives a reward based on the performance impact of that decision.
-
-### Key Elements:
-- *Observation Space*: Captures system state including CPU, memory, and priority values per process.
-- *Action Space*: Represents available scheduling actions (e.g., selecting a process to run).
-- *Reward Function*: Encourages decisions that lead to high throughput, low memory usage, and fair prioritization.
-
-## Objective
-
-The goal is to provide an interactive environment where an RL agent can learn optimal CPU scheduling strategies through trial and error, with rewards guiding it toward better performance.
-
-## Notes
-
-The environment is designed to be lightweight and extendable.
-It can be used directly for training agents in Step 4 using PPO or other RL algorithms.
-Future extensions may include support for preemption, I/O wait simulation, or real-system integration.
+🎯 Objective
+The environment allows the agent to learn optimal CPU scheduling strategies via trial and error. It is suitable for:
+Testing classic scheduling policies (e.g. Round-Robin, SRTF)
+Training RL agents using algorithms like PPO, DQN, etc.
+Analyzing trade-offs in performance vs. fairness
